@@ -7,61 +7,55 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { toast } from '@/hooks/use-toast';
 import { Flag, Trophy, Users, Share2 } from 'lucide-react';
-
 const Index = () => {
   const navigate = useNavigate();
   const [mobileNumber, setMobileNumber] = useState('');
   const [generatedLink, setGeneratedLink] = useState('');
-
   const generateReferralLink = () => {
     if (!mobileNumber || mobileNumber.length < 10) {
       toast({
         title: "Invalid Mobile Number",
         description: "Please enter a valid 10-digit mobile number.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
-
     const baseUrl = window.location.origin;
     const link = `${baseUrl}/quiz?ref=${mobileNumber}`;
     setGeneratedLink(link);
-    
     toast({
       title: "Referral Link Generated!",
-      description: "Share this link to invite others to participate.",
+      description: "Share this link to invite others to participate."
     });
   };
-
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(generatedLink);
       toast({
         title: "Link Copied!",
-        description: "Referral link has been copied to clipboard.",
+        description: "Referral link has been copied to clipboard."
       });
     } catch (error) {
       toast({
         title: "Copy Failed",
         description: "Please copy the link manually.",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50">
+  return <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50">
       {/* Navigation */}
       <nav className="bg-white/90 backdrop-blur-sm border-b shadow-sm">
         <div className="container mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-5 bg-gradient-to-r from-orange-500 via-white to-green-500 rounded-sm border"></div>
-              <h1 className="text-xl font-bold text-slate-800">കിസ് നിസ്സം</h1>
+              <h1 className="text-xl font-bold text-slate-800">ഇ-ലൈഫ് സൊസൈറ്റി 
+            </h1>
             </div>
             <div className="flex items-center space-x-2 text-sm">
               <span className="bg-orange-100 px-3 py-1 rounded-full">0</span>
-              <span className="text-slate-600">അയ്യൻ ലൊഗിൻ</span>
+              <span className="text-slate-600">അഡ്മിൻ </span>
             </div>
           </div>
         </div>
@@ -84,8 +78,9 @@ const Index = () => {
           {/* Main Title */}
           <div className="mb-8">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="text-orange-600">കിസ്</span>{' '}
-              <span className="text-green-600">ലേവാഗം</span>
+              <span className="text-orange-600">ഇ ലൈഫ് സൊസൈറ്റി 
+            </span>{' '}
+              <span className="text-green-600 font-bold text-3xl">ചോദ്യോത്തര മത്സരം</span>
             </h2>
             <p className="text-lg text-slate-600 mb-8">
               നിങ്ങളുടെ അറിവ് പരീക്ഷിക്കാനുള്ള സമയമായി
@@ -94,13 +89,7 @@ const Index = () => {
 
           {/* Main Quiz Button */}
           <div className="mb-12">
-            <Button 
-              onClick={() => navigate('/quiz')} 
-              size="lg" 
-              className="text-lg px-12 py-6 bg-gradient-to-r from-orange-500 to-green-500 hover:from-orange-600 hover:to-green-600 text-white font-semibold rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200"
-            >
-              കിസ് എടുക്കുക
-            </Button>
+            <Button onClick={() => navigate('/quiz')} size="lg" className="text-lg px-12 py-6 bg-gradient-to-r from-orange-500 to-green-500 hover:from-orange-600 hover:to-green-600 text-white font-semibold rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200">ചോദ്യങ്ങൾ</Button>
           </div>
 
           {/* Share Link Section */}
@@ -108,31 +97,20 @@ const Index = () => {
             <CardContent className="p-6">
               <div className="flex items-center justify-center mb-4">
                 <Share2 className="h-5 w-5 text-slate-600 mr-2" />
-                <h3 className="text-lg font-semibold text-slate-700">Create Share Link</h3>
+                <h3 className="font-semibold text-slate-700 text-xs">ഇവിടെ നിങ്ങളുടെ നമ്പർ കൊടുത്താൽ നിങ്ങളുടെ പേരിലുള്ള ലിങ്ക് കിട്ടും ആ ലിങ്ക് വഴി മത്സരത്തിൽ പങ്കെടുക്കുന്നവരുടെ എണ്ണത്തിനടിസ്ഥാനത്തിൽ നിങ്ങള്ക്ക് സമ്മാനം ലഭിക്കും Create Share Link</h3>
               </div>
               
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="mobile" className="text-slate-700 font-medium">Your Mobile Number</Label>
-                  <Input
-                    id="mobile"
-                    value={mobileNumber}
-                    onChange={(e) => setMobileNumber(e.target.value)}
-                    placeholder="Enter 10-digit mobile number"
-                    maxLength={10}
-                    className="mt-2 border-slate-300 focus:border-blue-500"
-                  />
+                  <Input id="mobile" value={mobileNumber} onChange={e => setMobileNumber(e.target.value)} placeholder="Enter 10-digit mobile number" maxLength={10} className="mt-2 border-slate-300 focus:border-blue-500" />
                 </div>
                 
-                <Button 
-                  onClick={generateReferralLink} 
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg"
-                >
+                <Button onClick={generateReferralLink} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg">
                   Generate Share Link
                 </Button>
                 
-                {generatedLink && (
-                  <div className="space-y-3 pt-3 border-t border-slate-200">
+                {generatedLink && <div className="space-y-3 pt-3 border-t border-slate-200">
                     <div className="flex space-x-2">
                       <Input value={generatedLink} readOnly className="flex-1 text-sm" />
                       <Button onClick={copyToClipboard} variant="outline" size="sm">
@@ -142,19 +120,14 @@ const Index = () => {
                     <p className="text-xs text-slate-500">
                       Share this link with friends and family to invite them!
                     </p>
-                  </div>
-                )}
+                  </div>}
               </div>
             </CardContent>
           </Card>
 
           {/* Admin Access */}
           <div className="mt-8">
-            <Button 
-              onClick={() => navigate('/admin-login')} 
-              variant="ghost" 
-              className="text-slate-500 hover:text-slate-700"
-            >
+            <Button onClick={() => navigate('/admin-login')} variant="ghost" className="text-slate-500 hover:text-slate-700">
               Admin Panel
             </Button>
           </div>
@@ -168,8 +141,6 @@ const Index = () => {
           <p className="mt-2 text-white/90">77 വർഷത്തെ സ്വാതന്ത്ര്യം ആഘോഷിക്കുന്നു 🇮🇳</p>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
