@@ -9,6 +9,7 @@ import { LogOut, Users, Trophy, Settings } from 'lucide-react';
 import QuestionManagement from '@/components/QuestionManagement';
 import SubmissionsTable from '@/components/SubmissionsTable';
 import ReferralLeaderboard from '@/components/ReferralLeaderboard';
+import QuizWinners from '@/components/QuizWinners';
 
 const AdminPanel = () => {
   const navigate = useNavigate();
@@ -100,9 +101,10 @@ const AdminPanel = () => {
 
         {/* Admin Tabs */}
         <Tabs defaultValue="questions" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="questions">Question Management</TabsTrigger>
             <TabsTrigger value="submissions">Submissions</TabsTrigger>
+            <TabsTrigger value="winners">Quiz Winners</TabsTrigger>
             <TabsTrigger value="leaderboard">Referral Leaderboard</TabsTrigger>
           </TabsList>
 
@@ -112,6 +114,10 @@ const AdminPanel = () => {
 
           <TabsContent value="submissions">
             <SubmissionsTable />
+          </TabsContent>
+
+          <TabsContent value="winners">
+            <QuizWinners />
           </TabsContent>
 
           <TabsContent value="leaderboard">
