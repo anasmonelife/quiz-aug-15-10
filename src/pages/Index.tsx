@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { toast } from '@/hooks/use-toast';
-import { Flag, Trophy, Users, Share2 } from 'lucide-react';
+import { Flag, Trophy, Users, Share2, MessageCircle } from 'lucide-react';
 const Index = () => {
   const navigate = useNavigate();
   const [mobileNumber, setMobileNumber] = useState('');
@@ -42,6 +42,35 @@ const Index = () => {
         variant: "destructive"
       });
     }
+  };
+
+  const shareOnWhatsApp = () => {
+    if (!generatedLink) {
+      toast({
+        title: "No Link Generated",
+        description: "Please generate a share link first.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const message = `🇮🇳 ഇ-ലൈഫ് സൊസൈറ്റി സ്വാതന്ത്ര്യ ദിന ക്വിസ് മത്സരത്തിൽ പങ്കെടുക്കൂ! 
+
+📝 നിങ്ങളുടെ അറിവ് പരീക്ഷിക്കാനുള്ള അവസരം
+🏆 മികച്ച പ്രകടനത്തിന് സമ്മാനങ്ങൾ
+⏰ ഇപ്പോൾ തന്നെ പങ്കെടുക്കൂ!
+
+${generatedLink}
+
+#IndependenceDay #Quiz #ELifeSociety`;
+
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+    
+    toast({
+      title: "WhatsApp Opened!",
+      description: "Share the quiz link with your friends."
+    });
   };
   return <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50">
       {/* Navigation */}
@@ -117,6 +146,17 @@ const Index = () => {
                         Copy
                       </Button>
                     </div>
+                    
+                    <div className="flex space-x-2">
+                      <Button 
+                        onClick={shareOnWhatsApp} 
+                        className="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded-lg"
+                      >
+                        <MessageCircle className="h-4 w-4 mr-2" />
+                        Share on WhatsApp
+                      </Button>
+                    </div>
+                    
                     <p className="text-xs text-slate-500">
                       Share this link with friends and family to invite them!
                     </p>
