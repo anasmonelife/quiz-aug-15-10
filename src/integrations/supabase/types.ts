@@ -14,7 +14,84 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      admin_users: {
+        Row: {
+          created_at: string
+          id: string
+          password_hash: string
+          username: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          password_hash: string
+          username: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          password_hash?: string
+          username?: string
+        }
+        Relationships: []
+      }
+      questions: {
+        Row: {
+          correct_answer: string
+          created_at: string
+          id: string
+          options: Json
+          question_text: string
+        }
+        Insert: {
+          correct_answer: string
+          created_at?: string
+          id?: string
+          options: Json
+          question_text: string
+        }
+        Update: {
+          correct_answer?: string
+          created_at?: string
+          id?: string
+          options?: Json
+          question_text?: string
+        }
+        Relationships: []
+      }
+      submissions: {
+        Row: {
+          answers: Json
+          created_at: string
+          id: string
+          mobile: string
+          name: string
+          panchayath: string
+          reference_id: string | null
+          score: number
+        }
+        Insert: {
+          answers: Json
+          created_at?: string
+          id?: string
+          mobile: string
+          name: string
+          panchayath: string
+          reference_id?: string | null
+          score?: number
+        }
+        Update: {
+          answers?: Json
+          created_at?: string
+          id?: string
+          mobile?: string
+          name?: string
+          panchayath?: string
+          reference_id?: string | null
+          score?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
