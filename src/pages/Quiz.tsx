@@ -46,7 +46,8 @@ const Quiz = () => {
       const { data, error } = await supabase
         .from('questions')
         .select('*')
-        .order('created_at');
+        .order('random()')
+        .limit(5);
 
       if (error) throw error;
       
