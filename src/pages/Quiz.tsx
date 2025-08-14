@@ -43,22 +43,26 @@ const Quiz = () => {
 
   const fetchQuestions = async () => {
     try {
+      // First get all questions, then randomly select 5 client-side
       const { data, error } = await supabase
         .from('questions')
-        .select('*')
-        .order('random()')
-        .limit(5);
+        .select('*');
 
       if (error) throw error;
       
-      const formattedQuestions: Question[] = (data || []).map((item: DatabaseQuestion) => ({
+      // Randomly shuffle and take 5 questions
+      const allQuestions: Question[] = (data || []).map((item: DatabaseQuestion) => ({
         id: item.id,
         question_text: item.question_text,
         options: item.options as { A: string; B: string; C: string; D: string },
         correct_answer: item.correct_answer,
       }));
       
-      setQuestions(formattedQuestions);
+      // Shuffle array and take first 5
+      const shuffled = allQuestions.sort(() => Math.random() - 0.5);
+      const randomQuestions = shuffled.slice(0, 5);
+      
+      setQuestions(randomQuestions);
     } catch (error) {
       console.error('Error fetching questions:', error);
       toast({
