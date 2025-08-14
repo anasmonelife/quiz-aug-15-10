@@ -50,155 +50,122 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-green-50">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50">
       {/* Navigation */}
-      <nav className="bg-white/80 backdrop-blur-sm border-b shadow-sm">
-        <div className="container mx-auto px-4 py-4">
+      <nav className="bg-white/90 backdrop-blur-sm border-b shadow-sm">
+        <div className="container mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-2">
-              <Flag className="h-8 w-8 text-primary" />
-              <h1 className="text-2xl font-bold text-primary">Independence Day Quiz</h1>
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-5 bg-gradient-to-r from-orange-500 via-white to-green-500 rounded-sm border"></div>
+              <h1 className="text-xl font-bold text-slate-800">കിസ് നിസ്സം</h1>
             </div>
-            <div className="flex space-x-4">
-              <Button onClick={() => navigate('/quiz')} className="bg-primary hover:bg-primary/90">
-                Take Quiz
-              </Button>
-              <Button onClick={() => navigate('/admin-login')} variant="outline">
-                Admin Panel
-              </Button>
+            <div className="flex items-center space-x-2 text-sm">
+              <span className="bg-orange-100 px-3 py-1 rounded-full">0</span>
+              <span className="text-slate-600">അയ്യൻ ലൊഗിൻ</span>
             </div>
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto max-w-4xl text-center">
+      <section className="py-16 px-4">
+        <div className="container mx-auto max-w-2xl text-center">
+          {/* Indian Flag Emblem */}
+          <div className="mb-8 flex justify-center">
+            <div className="relative">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-b from-orange-500 via-white to-green-500 border-4 border-blue-600 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center">
+                  <div className="w-8 h-8 bg-white rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Main Title */}
           <div className="mb-8">
-            <h2 className="text-5xl font-bold text-primary mb-4">
-              🇮🇳 Independence Day Quiz Competition 🇮🇳
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="text-orange-600">കിസ്</span>{' '}
+              <span className="text-green-600">ലേവാഗം</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Test your knowledge about India's freedom struggle and Independence Day. 
-              Participate in our quiz competition and share with friends to win prizes!
+            <p className="text-lg text-slate-600 mb-8">
+              നിങ്ങളുടെ അറിവ് പരീക്ഷിക്കാനുള്ള സമയമായി
             </p>
           </div>
 
-          {/* Feature Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-6 text-center">
-                <Users className="h-12 w-12 text-primary mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Participate</h3>
-                <p className="text-muted-foreground">Answer 20 questions about India's Independence</p>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-6 text-center">
-                <Share2 className="h-12 w-12 text-accent mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Share & Refer</h3>
-                <p className="text-muted-foreground">Generate your referral link and invite friends</p>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-6 text-center">
-                <Trophy className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Win Prizes</h3>
-                <p className="text-muted-foreground">Top referrers will be announced as winners</p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          {/* Main Quiz Button */}
+          <div className="mb-12">
             <Button 
               onClick={() => navigate('/quiz')} 
               size="lg" 
-              className="text-lg px-8 py-6 bg-primary hover:bg-primary/90"
+              className="text-lg px-12 py-6 bg-gradient-to-r from-orange-500 to-green-500 hover:from-orange-600 hover:to-green-600 text-white font-semibold rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200"
             >
-              Start Quiz Now
+              കിസ് എടുക്കുക
             </Button>
-
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button size="lg" variant="outline" className="text-lg px-8 py-6">
-                  Generate Referral Link
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Generate Your Referral Link</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="mobile">Your Mobile Number</Label>
-                    <Input
-                      id="mobile"
-                      value={mobileNumber}
-                      onChange={(e) => setMobileNumber(e.target.value)}
-                      placeholder="Enter your 10-digit mobile number"
-                      maxLength={10}
-                    />
-                  </div>
-                  <Button onClick={generateReferralLink} className="w-full">
-                    Generate Link
-                  </Button>
-                  
-                  {generatedLink && (
-                    <div className="space-y-2">
-                      <Label>Your Referral Link:</Label>
-                      <div className="flex space-x-2">
-                        <Input value={generatedLink} readOnly className="flex-1" />
-                        <Button onClick={copyToClipboard} variant="outline">
-                          Copy
-                        </Button>
-                      </div>
-                      <p className="text-sm text-muted-foreground">
-                        Share this link with friends and family to invite them to the quiz!
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </DialogContent>
-            </Dialog>
           </div>
-        </div>
-      </section>
 
-      {/* Instructions Section */}
-      <section className="py-16 px-4 bg-white/50">
-        <div className="container mx-auto max-w-4xl">
-          <h3 className="text-3xl font-bold text-center mb-8 text-primary">How It Works</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <h4 className="text-xl font-semibold">For Participants:</h4>
-              <ul className="space-y-2 text-muted-foreground">
-                <li>• Fill out the quiz form with your details</li>
-                <li>• Answer 20 Independence Day questions</li>
-                <li>• Your score will be calculated automatically</li>
-                <li>• Each mobile number can submit only once</li>
-              </ul>
-            </div>
-            <div className="space-y-4">
-              <h4 className="text-xl font-semibold">For Referrers:</h4>
-              <ul className="space-y-2 text-muted-foreground">
-                <li>• Generate your unique referral link</li>
-                <li>• Share with friends and family</li>
-                <li>• Track your referrals in the leaderboard</li>
-                <li>• Top 3 referrers will be declared winners</li>
-              </ul>
-            </div>
+          {/* Share Link Section */}
+          <Card className="max-w-md mx-auto bg-white/80 backdrop-blur-sm shadow-lg">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-center mb-4">
+                <Share2 className="h-5 w-5 text-slate-600 mr-2" />
+                <h3 className="text-lg font-semibold text-slate-700">Create Share Link</h3>
+              </div>
+              
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="mobile" className="text-slate-700 font-medium">Your Mobile Number</Label>
+                  <Input
+                    id="mobile"
+                    value={mobileNumber}
+                    onChange={(e) => setMobileNumber(e.target.value)}
+                    placeholder="Enter 10-digit mobile number"
+                    maxLength={10}
+                    className="mt-2 border-slate-300 focus:border-blue-500"
+                  />
+                </div>
+                
+                <Button 
+                  onClick={generateReferralLink} 
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg"
+                >
+                  Generate Share Link
+                </Button>
+                
+                {generatedLink && (
+                  <div className="space-y-3 pt-3 border-t border-slate-200">
+                    <div className="flex space-x-2">
+                      <Input value={generatedLink} readOnly className="flex-1 text-sm" />
+                      <Button onClick={copyToClipboard} variant="outline" size="sm">
+                        Copy
+                      </Button>
+                    </div>
+                    <p className="text-xs text-slate-500">
+                      Share this link with friends and family to invite them!
+                    </p>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Admin Access */}
+          <div className="mt-8">
+            <Button 
+              onClick={() => navigate('/admin-login')} 
+              variant="ghost" 
+              className="text-slate-500 hover:text-slate-700"
+            >
+              Admin Panel
+            </Button>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 bg-primary text-primary-foreground">
+      <footer className="py-6 px-4 bg-gradient-to-r from-orange-500 to-green-500">
         <div className="container mx-auto text-center">
-          <p className="text-lg font-semibold">Independence Day Quiz Competition 2024</p>
-          <p className="mt-2 opacity-90">Celebrating 77 years of freedom 🇮🇳</p>
+          <p className="text-lg font-semibold text-white">സ്വാതന്ത്ര്യ ദിന കിസ് മത്സരം 2024</p>
+          <p className="mt-2 text-white/90">77 വർഷത്തെ സ്വാതന്ത്ര്യം ആഘോഷിക്കുന്നു 🇮🇳</p>
         </div>
       </footer>
     </div>
