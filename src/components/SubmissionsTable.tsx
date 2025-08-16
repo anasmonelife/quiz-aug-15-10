@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
+import { Download, Search } from 'lucide-react';
+import * as XLSX from 'xlsx';
 
 interface Submission {
   id: string;
@@ -17,11 +21,23 @@ interface Submission {
 
 const SubmissionsTable = () => {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
+  const [filteredSubmissions, setFilteredSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     fetchSubmissions();
   }, []);
+
+  useEffect(() => {
+    const filtered = submissions.filter(submission =>
+      submission.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      submission.mobile.includes(searchTerm) ||
+      submission.panchayath.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (submission.reference_id && submission.reference_id.includes(searchTerm))
+    );
+    setFilteredSubmissions(filtered);
+  }, [submissions, searchTerm]);
 
   const fetchSubmissions = async () => {
     try {
@@ -32,6 +48,7 @@ const SubmissionsTable = () => {
 
       if (error) throw error;
       setSubmissions(data || []);
+      setFilteredSubmissions(data || []);
     } catch (error) {
       console.error('Error fetching submissions:', error);
       toast({
@@ -42,6 +59,29 @@ const SubmissionsTable = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const exportToExcel = () => {
+    const dataToExport = filteredSubmissions.map(submission => ({
+      Name: submission.name,
+      Mobile: submission.mobile,
+      Panchayath: submission.panchayath,
+      'Reference ID': submission.reference_id || '-',
+      Score: `${submission.score}/20`,
+      'Submission Time': format(new Date(submission.created_at), 'MMM dd, yyyy HH:mm')
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Quiz Submissions');
+    
+    const fileName = `quiz_submissions_${format(new Date(), 'yyyy-MM-dd_HH-mm')}.xlsx`;
+    XLSX.writeFile(workbook, fileName);
+    
+    toast({
+      title: "Export Successful",
+      description: `${filteredSubmissions.length} submissions exported to ${fileName}`,
+    });
   };
 
   if (loading) {
@@ -57,12 +97,29 @@ const SubmissionsTable = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Quiz Submissions ({submissions.length})</CardTitle>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
+          <CardTitle>Quiz Submissions ({filteredSubmissions.length}/{submissions.length})</CardTitle>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+              <Input
+                placeholder="Search by name, mobile, panchayath..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 w-full sm:w-80"
+              />
+            </div>
+            <Button onClick={exportToExcel} variant="outline" disabled={filteredSubmissions.length === 0}>
+              <Download className="h-4 w-4 mr-2" />
+              Export Excel
+            </Button>
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
-        {submissions.length === 0 ? (
+        {filteredSubmissions.length === 0 ? (
           <div className="text-center py-8 text-muted-foreground">
-            No submissions yet.
+            {searchTerm ? 'No submissions found matching your search.' : 'No submissions yet.'}
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -78,7 +135,7 @@ const SubmissionsTable = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {submissions.map((submission) => (
+                {filteredSubmissions.map((submission) => (
                   <TableRow key={submission.id}>
                     <TableCell className="font-medium">{submission.name}</TableCell>
                     <TableCell>{submission.mobile}</TableCell>
