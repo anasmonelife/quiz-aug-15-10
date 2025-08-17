@@ -10,6 +10,7 @@ import QuestionManagement from '@/components/QuestionManagement';
 import SubmissionsTable from '@/components/SubmissionsTable';
 import ReferralLeaderboard from '@/components/ReferralLeaderboard';
 import QuizWinners from '@/components/QuizWinners';
+import FastestSubmissions from '@/components/FastestSubmissions';
 
 const AdminPanel = () => {
   const navigate = useNavigate();
@@ -101,9 +102,10 @@ const AdminPanel = () => {
 
         {/* Admin Tabs */}
         <Tabs defaultValue="questions" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="questions">Question Management</TabsTrigger>
             <TabsTrigger value="submissions">Submissions</TabsTrigger>
+            <TabsTrigger value="score">Score Winners</TabsTrigger>
             <TabsTrigger value="winners">Quiz Winners</TabsTrigger>
             <TabsTrigger value="leaderboard">Referral Leaderboard</TabsTrigger>
           </TabsList>
@@ -114,6 +116,10 @@ const AdminPanel = () => {
 
           <TabsContent value="submissions">
             <SubmissionsTable />
+          </TabsContent>
+
+          <TabsContent value="score">
+            <FastestSubmissions />
           </TabsContent>
 
           <TabsContent value="winners">
