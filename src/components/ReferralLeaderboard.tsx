@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
-import { Trophy, Medal, Award } from 'lucide-react';
+import { Trophy, Medal, Award, Award as Certificate } from 'lucide-react';
+import WinnerCertificate from '@/components/WinnerCertificate';
 
 interface ReferralData {
   reference_id: string;
@@ -14,6 +16,8 @@ interface ReferralData {
 const ReferralLeaderboard = () => {
   const [referralData, setReferralData] = useState<ReferralData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedWinner, setSelectedWinner] = useState<any>(null);
+  const [showCertificate, setShowCertificate] = useState(false);
 
   useEffect(() => {
     fetchReferralData();
@@ -81,6 +85,23 @@ const ReferralLeaderboard = () => {
     }
   };
 
+  const handleGenerateCertificate = (referralItem: ReferralData) => {
+    // Create a winner object compatible with the certificate component
+    const winner = {
+      id: referralItem.reference_id,
+      name: `Reference ID: ${referralItem.reference_id}`,
+      mobile: 'N/A',
+      panchayath: 'Referral Leader',
+      score: referralItem.count,
+      created_at: new Date().toISOString(),
+      position: referralItem.rank,
+      submissionTimeSeconds: 0 // Not applicable for referrals
+    };
+    
+    setSelectedWinner(winner);
+    setShowCertificate(true);
+  };
+
   if (loading) {
     return (
       <Card>
@@ -122,9 +143,22 @@ const ReferralLeaderboard = () => {
                     </p>
                   </div>
                 </div>
-                <div className="text-right">
-                  {getRankBadge(item.rank)}
-                  <p className="text-2xl font-bold text-primary mt-1">{item.count}</p>
+                <div className="flex items-center gap-4">
+                  <div className="text-right">
+                    {getRankBadge(item.rank)}
+                    <p className="text-2xl font-bold text-primary mt-1">{item.count}</p>
+                  </div>
+                  {item.rank <= 3 && (
+                    <Button 
+                      onClick={() => handleGenerateCertificate(item)}
+                      variant="outline" 
+                      size="sm"
+                      className="flex items-center gap-2"
+                    >
+                      <Certificate className="h-4 w-4" />
+                      Generate Certificate
+                    </Button>
+                  )}
                 </div>
               </div>
             ))}
@@ -148,6 +182,18 @@ const ReferralLeaderboard = () => {
           </div>
         )}
       </CardContent>
+
+      {/* Winner Certificate Modal */}
+      {selectedWinner && (
+        <WinnerCertificate
+          winner={selectedWinner}
+          isOpen={showCertificate}
+          onClose={() => {
+            setShowCertificate(false);
+            setSelectedWinner(null);
+          }}
+        />
+      )}
     </Card>
   );
 };
