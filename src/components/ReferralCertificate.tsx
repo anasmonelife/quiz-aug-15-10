@@ -29,7 +29,6 @@ interface ReferralCertificateProps {
 const ReferralCertificate: React.FC<ReferralCertificateProps> = ({ winner, isOpen, onClose }) => {
   const certificateRef = useRef<HTMLDivElement>(null);
   const [contestantName, setContestantName] = useState('');
-  const [contestantPanchayath, setContestantPanchayath] = useState(winner.attendedPanchayaths?.toString() || '');
 
   const getPositionIcon = (position: number) => {
     switch (position) {
@@ -73,10 +72,10 @@ const ReferralCertificate: React.FC<ReferralCertificateProps> = ({ winner, isOpe
 
   const downloadCertificate = async () => {
     if (!certificateRef.current) return;
-    if (!contestantName.trim() || !contestantPanchayath.trim()) {
+    if (!contestantName.trim()) {
       toast({
         title: "Missing Information",
-        description: "Please fill in your name and panchayath before downloading.",
+        description: "Please fill in your name before downloading.",
         variant: "destructive",
       });
       return;
@@ -111,10 +110,10 @@ const ReferralCertificate: React.FC<ReferralCertificateProps> = ({ winner, isOpe
   };
 
   const shareToWhatsApp = () => {
-    if (!contestantName.trim() || !contestantPanchayath.trim()) {
+    if (!contestantName.trim()) {
       toast({
         title: "Missing Information",
-        description: "Please fill in your name and panchayath before sharing.",
+        description: "Please fill in your name before sharing.",
         variant: "destructive",
       });
       return;
@@ -125,7 +124,6 @@ const ReferralCertificate: React.FC<ReferralCertificateProps> = ({ winner, isOpe
 🏆 Position: ${getPositionText(winner.position)}
 📊 Total References: ${winner.score}
 ✅ Qualified Referrals (5+ Score): ${winner.qualifiedReferrals || 0}
-📍 Attended Panchayaths: ${contestantPanchayath}
 📅 Date: ${formatDate(winner.created_at)}
 
 AZADI-2025 - E-life Society
@@ -147,7 +145,7 @@ Well done! 🎊`;
           <Card className="bg-accent/5">
             <CardContent className="p-4">
               <h3 className="font-semibold mb-4">Please enter your name:</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4">
                 <div>
                   <Label htmlFor="contestantName">Your Name</Label>
                   <Input
@@ -158,49 +156,33 @@ Well done! 🎊`;
                     className="mt-1"
                   />
                 </div>
-                <div>
-                  <Label htmlFor="contestantPanchayath">Attended Panchayaths Count</Label>
-                  <Input
-                    id="contestantPanchayath"
-                    value={contestantPanchayath}
-                    onChange={(e) => setContestantPanchayath(e.target.value)}
-                    placeholder="Auto-filled from submissions"
-                    className="mt-1"
-                    disabled={winner.attendedPanchayaths !== undefined}
-                  />
-                  {winner.attendedPanchayaths !== undefined && (
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Automatically calculated from submission data
-                    </p>
-                  )}
-                </div>
               </div>
             </CardContent>
           </Card>
 
           {/* Certificate */}
-          <Card className="bg-gradient-to-br from-primary/5 via-background to-secondary/5">
+          <Card className="bg-gradient-to-br from-blue-50 to-pink-50">
             <CardContent className="p-0">
               <div 
                 ref={certificateRef}
-                className="relative bg-gradient-to-br from-primary/10 via-background to-secondary/10 p-12 text-center border-8 border-primary/20"
+                className="relative bg-gradient-to-br from-blue-100 via-background to-pink-100 p-12 text-center border-8 border-blue-300"
                 style={{ minHeight: '600px' }}
               >
                 {/* Decorative corners */}
-                <div className="absolute top-4 left-4 w-16 h-16 border-l-4 border-t-4 border-primary/30"></div>
-                <div className="absolute top-4 right-4 w-16 h-16 border-r-4 border-t-4 border-primary/30"></div>
-                <div className="absolute bottom-4 left-4 w-16 h-16 border-l-4 border-b-4 border-primary/30"></div>
-                <div className="absolute bottom-4 right-4 w-16 h-16 border-r-4 border-b-4 border-primary/30"></div>
+                <div className="absolute top-4 left-4 w-16 h-16 border-l-4 border-t-4 border-blue-400"></div>
+                <div className="absolute top-4 right-4 w-16 h-16 border-r-4 border-t-4 border-pink-400"></div>
+                <div className="absolute bottom-4 left-4 w-16 h-16 border-l-4 border-b-4 border-blue-400"></div>
+                <div className="absolute bottom-4 right-4 w-16 h-16 border-r-4 border-b-4 border-pink-400"></div>
 
                 {/* Header */}
                 <div className="mb-8">
                   <div className="mb-4">
-                    <h1 className="text-3xl font-bold text-primary mb-1">E-life Society</h1>
+                    <h1 className="text-3xl font-bold text-blue-600 mb-1">E-life Society</h1>
                     <p className="text-sm text-muted-foreground">(powered by Eva Marketing Solutions Pvt. Ltd.)</p>
                     <p className="text-base text-muted-foreground italic mt-1">a socio-women empowerment practical program</p>
                   </div>
-                  <h2 className="text-4xl font-bold text-primary mb-2">CERTIFICATE OF ACHIEVEMENT</h2>
-                  <div className="w-32 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mb-4"></div>
+                  <h2 className="text-4xl font-bold text-blue-600 mb-2">CERTIFICATE OF ACHIEVEMENT</h2>
+                  <div className="w-32 h-1 bg-gradient-to-r from-blue-500 to-pink-500 mx-auto mb-4"></div>
                   <p className="text-xl text-muted-foreground">AZADI-2025 Referral Competition Winner</p>
                 </div>
 
@@ -212,38 +194,34 @@ Well done! 🎊`;
                 {/* Main Content */}
                 <div className="mb-8">
                   <p className="text-lg text-muted-foreground mb-4">This is to certify that</p>
-                  <h2 className="text-5xl font-bold text-primary mb-6 tracking-wide">
+                  <h2 className="text-5xl font-bold text-blue-600 mb-6 tracking-wide">
                     {contestantName || '[Your Name]'}
                   </h2>
                   <p className="text-lg text-muted-foreground mb-4">has successfully achieved</p>
-                  <div className="bg-gradient-to-r from-primary/20 to-secondary/20 p-6 rounded-lg mb-6">
-                    <h3 className="text-3xl font-bold text-primary mb-2">{getPositionText(winner.position)}</h3>
+                  <div className="bg-gradient-to-r from-blue-100 to-pink-100 p-6 rounded-lg mb-6 border border-blue-200">
+                    <h3 className="text-3xl font-bold text-blue-600 mb-2">{getPositionText(winner.position)}</h3>
                     <p className="text-xl text-muted-foreground">in the Referral Competition</p>
                   </div>
                 </div>
 
                 {/* Achievement Details */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                  <div className="bg-background/50 p-4 rounded-lg border">
-                    <div className="text-2xl font-bold text-primary">{winner.score}</div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                  <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <div className="text-2xl font-bold text-blue-600">{winner.score}</div>
                     <div className="text-sm text-muted-foreground">Total References</div>
                   </div>
-                  <div className="bg-background/50 p-4 rounded-lg border">
-                    <div className="text-2xl font-bold text-primary">{winner.qualifiedReferrals || 0}</div>
+                  <div className="bg-pink-50 p-4 rounded-lg border border-pink-200">
+                    <div className="text-2xl font-bold text-pink-600">{winner.qualifiedReferrals || 0}</div>
                     <div className="text-sm text-muted-foreground">Qualified (5+ Score)</div>
                   </div>
-                  <div className="bg-background/50 p-4 rounded-lg border">
-                    <div className="text-2xl font-bold text-primary">{contestantPanchayath || '[Count]'}</div>
-                    <div className="text-sm text-muted-foreground">Attended Panchayaths</div>
-                  </div>
-                  <div className="bg-background/50 p-4 rounded-lg border">
-                    <div className="text-lg font-bold text-primary">ID: {winner.id}</div>
+                  <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <div className="text-lg font-bold text-blue-600">ID: {winner.id}</div>
                     <div className="text-sm text-muted-foreground">Reference Code</div>
                   </div>
                 </div>
 
                 {/* Footer */}
-                <div className="border-t border-primary/20 pt-6">
+                <div className="border-t border-blue-200 pt-6">
                   <p className="text-sm text-muted-foreground mb-2">Awarded on {formatDate(winner.created_at)}</p>
                   <div className="flex justify-center items-center gap-4">
                     <div className="text-center">
@@ -261,7 +239,7 @@ Well done! 🎊`;
             <Button 
               onClick={downloadCertificate} 
               className="flex items-center gap-2"
-              disabled={!contestantName.trim() || !contestantPanchayath.trim()}
+              disabled={!contestantName.trim()}
             >
               <Download className="h-4 w-4" />
               Download Certificate
@@ -270,7 +248,7 @@ Well done! 🎊`;
               onClick={shareToWhatsApp} 
               variant="outline" 
               className="flex items-center gap-2"
-              disabled={!contestantName.trim() || !contestantPanchayath.trim()}
+              disabled={!contestantName.trim()}
             >
               <Share2 className="h-4 w-4" />
               Share on WhatsApp

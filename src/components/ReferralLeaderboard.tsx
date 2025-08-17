@@ -127,7 +127,6 @@ const ReferralLeaderboard = () => {
       created_at: new Date().toISOString(),
       position: referralItem.rank,
       submissionTimeSeconds: 0, // Not applicable for referrals
-      attendedPanchayaths: referralItem.attendedPanchayaths,
       qualifiedReferrals: referralItem.qualifiedReferrals
     };
     

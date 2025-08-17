@@ -8,41 +8,42 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Independence Day themed colors */
-    --background: 30 100% 98%;
-    --foreground: 12 34% 15%;
+    /* Blue-Pink certificate themed colors */
+    --background: 220 100% 98%;
+    --foreground: 220 34% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 12 34% 15%;
+    --card-foreground: 220 34% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 12 34% 15%;
+    --popover-foreground: 220 34% 15%;
 
-    /* Orange theme for primary */
-    --primary: 18 95% 55%;
+    /* Blue theme for primary */
+    --primary: 220 70% 55%;
     --primary-foreground: 0 0% 100%;
 
-    /* White/light theme for secondary */
-    --secondary: 0 0% 98%;
-    --secondary-foreground: 12 34% 15%;
+    /* Pink theme for secondary */
+    --secondary: 320 70% 70%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 30 20% 95%;
-    --muted-foreground: 12 20% 45%;
+    --muted: 220 20% 95%;
+    --muted-foreground: 220 20% 45%;
 
-    /* Green accent for Independence Day */
-    --accent: 142 76% 36%;
+    /* Pink accent */
+    --accent: 320 70% 70%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 30 15% 90%;
-    --input: 30 15% 90%;
-    --ring: 18 95% 55%;
+    --border: 220 15% 90%;
+    --input: 220 15% 90%;
+    --ring: 220 70% 55%;
 
-    /* Independence Day gradients */
-    --gradient-independence: linear-gradient(135deg, hsl(18 95% 55%), hsl(142 76% 36%));
-    --gradient-hero: linear-gradient(180deg, hsl(18 95% 55% / 0.1), hsl(142 76% 36% / 0.1));
+    /* Blue-Pink gradients for certificates */
+    --gradient-certificate: linear-gradient(135deg, hsl(220 70% 55%), hsl(320 70% 70%));
+    --gradient-hero: linear-gradient(180deg, hsl(220 70% 55% / 0.1), hsl(320 70% 70% / 0.1));
+    --gradient-certificate-bg: linear-gradient(135deg, hsl(220 70% 55% / 0.1), hsl(320 70% 70% / 0.1));
 
     --radius: 0.75rem;
 
