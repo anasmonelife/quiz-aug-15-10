@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
-import { Trophy, Clock, Medal, Award } from 'lucide-react';
+import { Trophy, Clock, Medal, Award, FileText } from 'lucide-react';
+import WinnerCertificate from './WinnerCertificate';
 import { format } from 'date-fns';
 
 interface FastestSubmission {
@@ -19,6 +21,8 @@ interface FastestSubmission {
 const FastestSubmissions = () => {
   const [fastestSubmissions, setFastestSubmissions] = useState<FastestSubmission[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedWinner, setSelectedWinner] = useState<FastestSubmission | null>(null);
+  const [isCertificateOpen, setIsCertificateOpen] = useState(false);
 
   useEffect(() => {
     fetchFastestSubmissions();
@@ -111,6 +115,11 @@ const FastestSubmissions = () => {
     return `${minutes}m ${remainingSeconds}s`;
   };
 
+  const handleGenerateCertificate = (winner: FastestSubmission) => {
+    setSelectedWinner(winner);
+    setIsCertificateOpen(true);
+  };
+
   if (loading) {
     return (
       <Card>
@@ -160,7 +169,7 @@ const FastestSubmissions = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="text-right">
+                    <div className="text-right space-y-2">
                       <div className="text-2xl font-bold text-green-600">
                         {formatTime(submission.submissionTimeSeconds)}
                       </div>
@@ -170,6 +179,14 @@ const FastestSubmissions = () => {
                       <div className="text-sm text-muted-foreground">
                         Submitted: {format(new Date(submission.created_at), 'MMM dd, yyyy HH:mm')}
                       </div>
+                      <Button
+                        onClick={() => handleGenerateCertificate(submission)}
+                        size="sm"
+                        className="flex items-center gap-2"
+                      >
+                        <FileText className="h-4 w-4" />
+                        Generate Certificate
+                      </Button>
                     </div>
                   </div>
                 </CardContent>
@@ -178,6 +195,18 @@ const FastestSubmissions = () => {
           </div>
         )}
       </CardContent>
+      
+      {/* Certificate Modal */}
+      {selectedWinner && (
+        <WinnerCertificate
+          winner={selectedWinner}
+          isOpen={isCertificateOpen}
+          onClose={() => {
+            setIsCertificateOpen(false);
+            setSelectedWinner(null);
+          }}
+        />
+      )}
     </Card>
   );
 };
