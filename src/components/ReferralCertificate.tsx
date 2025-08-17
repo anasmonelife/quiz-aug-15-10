@@ -135,7 +135,7 @@ Well done! 🎊`;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-[95vw] sm:max-w-2xl lg:max-w-4xl max-h-[90vh] overflow-y-auto p-2 sm:p-6">
         <DialogHeader>
           <DialogTitle>Referral Winner Certificate</DialogTitle>
         </DialogHeader>
@@ -165,66 +165,65 @@ Well done! 🎊`;
             <CardContent className="p-0">
               <div 
                 ref={certificateRef}
-                className="relative bg-gradient-to-br from-blue-100 via-background to-pink-100 p-6 text-center border-4 border-blue-300"
-                style={{ width: '500px', height: '500px' }}
+                className="relative bg-gradient-to-br from-blue-100 via-background to-pink-100 p-3 sm:p-6 text-center border-2 sm:border-4 border-blue-300 mx-auto w-80 h-80 sm:w-[500px] sm:h-[500px]"
               >
                 {/* Decorative corners */}
-                <div className="absolute top-2 left-2 w-8 h-8 border-l-2 border-t-2 border-blue-400"></div>
-                <div className="absolute top-2 right-2 w-8 h-8 border-r-2 border-t-2 border-pink-400"></div>
-                <div className="absolute bottom-2 left-2 w-8 h-8 border-l-2 border-b-2 border-blue-400"></div>
-                <div className="absolute bottom-2 right-2 w-8 h-8 border-r-2 border-b-2 border-pink-400"></div>
+                <div className="absolute top-1 left-1 sm:top-2 sm:left-2 w-4 h-4 sm:w-8 sm:h-8 border-l-2 border-t-2 border-blue-400"></div>
+                <div className="absolute top-1 right-1 sm:top-2 sm:right-2 w-4 h-4 sm:w-8 sm:h-8 border-r-2 border-t-2 border-pink-400"></div>
+                <div className="absolute bottom-1 left-1 sm:bottom-2 sm:left-2 w-4 h-4 sm:w-8 sm:h-8 border-l-2 border-b-2 border-blue-400"></div>
+                <div className="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 w-4 h-4 sm:w-8 sm:h-8 border-r-2 border-b-2 border-pink-400"></div>
 
                 {/* Header */}
-                <div className="mb-4">
-                  <div className="mb-2">
-                    <h1 className="text-lg font-bold text-blue-600 mb-1">E-life Society</h1>
+                <div className="mb-2 sm:mb-4">
+                  <div className="mb-1 sm:mb-2">
+                    <h1 className="text-sm sm:text-lg font-bold text-blue-600 mb-1">E-life Society</h1>
                     <p className="text-xs text-muted-foreground">(powered by Eva Marketing Solutions Pvt. Ltd.)</p>
                   </div>
-                  <h2 className="text-xl font-bold text-blue-600 mb-1">CERTIFICATE OF ACHIEVEMENT</h2>
-                  <div className="w-20 h-0.5 bg-gradient-to-r from-blue-500 to-pink-500 mx-auto mb-2"></div>
-                  <p className="text-sm text-muted-foreground">AZADI-2025 Referral Competition Winner</p>
+                  <h2 className="text-base sm:text-xl font-bold text-blue-600 mb-1">CERTIFICATE OF ACHIEVEMENT</h2>
+                  <div className="w-16 sm:w-20 h-0.5 bg-gradient-to-r from-blue-500 to-pink-500 mx-auto mb-1 sm:mb-2"></div>
+                  <p className="text-xs sm:text-sm text-muted-foreground">AZADI-2025 Referral Competition Winner</p>
                 </div>
 
                 {/* Award Icon */}
-                <div className="flex justify-center mb-3">
-                  <div className="scale-75">{getPositionIcon(winner.position)}</div>
+                <div className="flex justify-center mb-2 sm:mb-3">
+                  <div className="scale-50 sm:scale-75">{getPositionIcon(winner.position)}</div>
                 </div>
 
                 {/* Main Content */}
-                <div className="mb-4">
-                  <p className="text-xs text-muted-foreground mb-2">This is to certify that</p>
-                  <h2 className="text-2xl font-bold text-blue-600 mb-3 tracking-wide">
+                <div className="mb-2 sm:mb-4">
+                  <p className="text-xs text-muted-foreground mb-1 sm:mb-2">This is to certify that</p>
+                  <h2 className="text-lg sm:text-2xl font-bold text-blue-600 mb-2 sm:mb-3 tracking-wide">
                     {contestantName || '[Your Name]'}
                   </h2>
-                  <p className="text-xs text-muted-foreground mb-2">has successfully achieved</p>
-                  <div className="bg-gradient-to-r from-blue-100 to-pink-100 p-3 rounded-lg mb-3 border border-blue-200">
-                    <h3 className="text-lg font-bold text-blue-600 mb-1">{getPositionText(winner.position)}</h3>
-                    <p className="text-sm text-muted-foreground">in the Referral Competition</p>
+                  <p className="text-xs text-muted-foreground mb-1 sm:mb-2">has successfully achieved</p>
+                  <div className="bg-gradient-to-r from-blue-100 to-pink-100 p-2 sm:p-3 rounded-lg mb-2 sm:mb-3 border border-blue-200">
+                    <h3 className="text-sm sm:text-lg font-bold text-blue-600 mb-1">{getPositionText(winner.position)}</h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground">in the Referral Competition</p>
                   </div>
                 </div>
 
                 {/* Achievement Details */}
-                <div className="grid grid-cols-3 gap-2 mb-4">
-                  <div className="bg-blue-50 p-2 rounded border border-blue-200">
-                    <div className="text-lg font-bold text-blue-600">{winner.score}</div>
+                <div className="grid grid-cols-3 gap-1 sm:gap-2 mb-2 sm:mb-4">
+                  <div className="bg-blue-50 p-1 sm:p-2 rounded border border-blue-200">
+                    <div className="text-sm sm:text-lg font-bold text-blue-600">{winner.score}</div>
                     <div className="text-xs text-muted-foreground">References</div>
                   </div>
-                  <div className="bg-pink-50 p-2 rounded border border-pink-200">
-                    <div className="text-lg font-bold text-pink-600">{winner.qualifiedReferrals || 0}</div>
+                  <div className="bg-pink-50 p-1 sm:p-2 rounded border border-pink-200">
+                    <div className="text-sm sm:text-lg font-bold text-pink-600">{winner.qualifiedReferrals || 0}</div>
                     <div className="text-xs text-muted-foreground">Qualified</div>
                   </div>
-                  <div className="bg-blue-50 p-2 rounded border border-blue-200">
-                    <div className="text-sm font-bold text-blue-600">{winner.id}</div>
+                  <div className="bg-blue-50 p-1 sm:p-2 rounded border border-blue-200">
+                    <div className="text-xs sm:text-sm font-bold text-blue-600">{winner.id}</div>
                     <div className="text-xs text-muted-foreground">Ref Code</div>
                   </div>
                 </div>
 
                 {/* Footer */}
-                <div className="border-t border-blue-200 pt-3">
-                  <p className="text-xs text-muted-foreground mb-2">Awarded on {formatDate(winner.created_at)}</p>
+                <div className="border-t border-blue-200 pt-2 sm:pt-3">
+                  <p className="text-xs text-muted-foreground mb-1 sm:mb-2">Awarded on {formatDate(winner.created_at)}</p>
                   <div className="flex justify-center items-center">
                     <div className="text-center">
-                      <div className="w-20 border-t border-muted-foreground mb-1"></div>
+                      <div className="w-16 sm:w-20 border-t border-muted-foreground mb-1"></div>
                       <p className="text-xs text-muted-foreground">Administrator</p>
                     </div>
                   </div>
@@ -234,11 +233,12 @@ Well done! 🎊`;
           </Card>
 
           {/* Action Buttons */}
-          <div className="flex gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center">
             <Button 
               onClick={downloadCertificate} 
               className="flex items-center gap-2"
               disabled={!contestantName.trim()}
+              size="sm"
             >
               <Download className="h-4 w-4" />
               Download Certificate
@@ -248,6 +248,7 @@ Well done! 🎊`;
               variant="outline" 
               className="flex items-center gap-2"
               disabled={!contestantName.trim()}
+              size="sm"
             >
               <Share2 className="h-4 w-4" />
               Share on WhatsApp

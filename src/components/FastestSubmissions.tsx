@@ -153,39 +153,43 @@ const FastestSubmissions = () => {
                 key={submission.id} 
                 className={`border-2 ${getPositionColor(submission.position)}`}
               >
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      {getPositionIcon(submission.position)}
-                      <div>
-                        <h3 className="text-xl font-bold text-primary">
+                <CardContent className="p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div className="flex items-center gap-3 sm:gap-4">
+                      <div className="hidden sm:block">{getPositionIcon(submission.position)}</div>
+                      <div className="sm:hidden">{getPositionIcon(submission.position)}</div>
+                      <div className="flex-1">
+                        <h3 className="text-lg sm:text-xl font-bold text-primary">
                           {submission.name}
                         </h3>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-xs sm:text-sm text-muted-foreground">
                           {submission.mobile} • {submission.panchayath}
                         </p>
-                        <p className="text-lg font-semibold text-primary mt-1">
+                        <p className="text-sm sm:text-lg font-semibold text-primary mt-1">
                           {getPositionText(submission.position)}
                         </p>
                       </div>
                     </div>
-                    <div className="text-right space-y-2">
-                      <div className="text-2xl font-bold text-green-600">
-                        {formatTime(submission.submissionTimeSeconds)}
-                      </div>
-                      <div className="text-lg font-semibold text-primary">
-                        Score: {submission.score}/20
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        Submitted: {format(new Date(submission.created_at), 'MMM dd, yyyy HH:mm')}
+                    <div className="flex flex-row sm:flex-col sm:text-right justify-between sm:justify-end items-center sm:items-end gap-2 sm:space-y-2">
+                      <div className="flex flex-col sm:contents">
+                        <div className="text-xl sm:text-2xl font-bold text-green-600">
+                          {formatTime(submission.submissionTimeSeconds)}
+                        </div>
+                        <div className="text-sm sm:text-lg font-semibold text-primary">
+                          Score: {submission.score}/20
+                        </div>
+                        <div className="text-xs sm:text-sm text-muted-foreground">
+                          {format(new Date(submission.created_at), 'MMM dd, yyyy')}
+                        </div>
                       </div>
                       <Button
                         onClick={() => handleGenerateCertificate(submission)}
                         size="sm"
-                        className="flex items-center gap-2"
+                        className="flex items-center gap-2 text-xs sm:text-sm whitespace-nowrap"
                       >
-                        <FileText className="h-4 w-4" />
-                        Generate Certificate
+                        <FileText className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <span className="hidden sm:inline">Generate Certificate</span>
+                        <span className="sm:hidden">Certificate</span>
                       </Button>
                     </div>
                   </div>
