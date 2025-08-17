@@ -141,9 +141,14 @@ Well done! 🎊`;
 
                 {/* Header */}
                 <div className="mb-8">
-                  <h1 className="text-4xl font-bold text-primary mb-2">CERTIFICATE OF ACHIEVEMENT</h1>
+                  <div className="mb-4">
+                    <h1 className="text-3xl font-bold text-primary mb-1">E-life Society</h1>
+                    <p className="text-sm text-muted-foreground">(powered by Eva Marketing Solutions Pvt. Ltd.)</p>
+                    <p className="text-base text-muted-foreground italic mt-1">a socio-women empowerment practical program</p>
+                  </div>
+                  <h2 className="text-4xl font-bold text-primary mb-2">CERTIFICATE OF ACHIEVEMENT</h2>
                   <div className="w-32 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mb-4"></div>
-                  <p className="text-xl text-muted-foreground">Quiz Competition Winner</p>
+                  <p className="text-xl text-muted-foreground">AZADI-2025 Quiz Competition Winner</p>
                 </div>
 
                 {/* Award Icon */}
