@@ -102,12 +102,12 @@ const AdminPanel = () => {
 
         {/* Admin Tabs */}
         <Tabs defaultValue="questions" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="questions">Question Management</TabsTrigger>
-            <TabsTrigger value="submissions">Submissions</TabsTrigger>
-            <TabsTrigger value="score">Score Winners</TabsTrigger>
-            <TabsTrigger value="winners">Quiz Winners</TabsTrigger>
-            <TabsTrigger value="leaderboard">Referral Leaderboard</TabsTrigger>
+          <TabsList className="flex flex-wrap w-full gap-1 h-auto p-1 md:grid md:grid-cols-5 md:h-10">
+            <TabsTrigger value="questions" className="flex-1 min-w-0 text-xs sm:text-sm whitespace-nowrap">Questions</TabsTrigger>
+            <TabsTrigger value="submissions" className="flex-1 min-w-0 text-xs sm:text-sm whitespace-nowrap">Submissions</TabsTrigger>
+            <TabsTrigger value="score" className="flex-1 min-w-0 text-xs sm:text-sm whitespace-nowrap">Score Winners</TabsTrigger>
+            <TabsTrigger value="winners" className="flex-1 min-w-0 text-xs sm:text-sm whitespace-nowrap">Quiz Winners</TabsTrigger>
+            <TabsTrigger value="leaderboard" className="flex-1 min-w-0 text-xs sm:text-sm whitespace-nowrap">Referrals</TabsTrigger>
           </TabsList>
 
           <TabsContent value="questions">
