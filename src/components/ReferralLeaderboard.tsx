@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import { Trophy, Medal, Award, Award as Certificate } from 'lucide-react';
-import WinnerCertificate from '@/components/WinnerCertificate';
+import ReferralCertificate from '@/components/ReferralCertificate';
 
 interface ReferralData {
   reference_id: string;
@@ -148,7 +148,7 @@ const ReferralLeaderboard = () => {
                     {getRankBadge(item.rank)}
                     <p className="text-2xl font-bold text-primary mt-1">{item.count}</p>
                   </div>
-                  {item.rank <= 3 && (
+                  {item.rank <= 10 && item.count >= 5 && (
                     <Button 
                       onClick={() => handleGenerateCertificate(item)}
                       variant="outline" 
@@ -183,9 +183,9 @@ const ReferralLeaderboard = () => {
         )}
       </CardContent>
 
-      {/* Winner Certificate Modal */}
+      {/* Referral Certificate Modal */}
       {selectedWinner && (
-        <WinnerCertificate
+        <ReferralCertificate
           winner={selectedWinner}
           isOpen={showCertificate}
           onClose={() => {
