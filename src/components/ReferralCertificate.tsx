@@ -16,6 +16,8 @@ interface ReferralWinnerData {
   created_at: string;
   position: number;
   submissionTimeSeconds: number;
+  attendedPanchayaths?: number;
+  qualifiedReferrals?: number;
 }
 
 interface ReferralCertificateProps {
@@ -27,7 +29,7 @@ interface ReferralCertificateProps {
 const ReferralCertificate: React.FC<ReferralCertificateProps> = ({ winner, isOpen, onClose }) => {
   const certificateRef = useRef<HTMLDivElement>(null);
   const [contestantName, setContestantName] = useState('');
-  const [contestantPanchayath, setContestantPanchayath] = useState('');
+  const [contestantPanchayath, setContestantPanchayath] = useState(winner.attendedPanchayaths?.toString() || '');
 
   const getPositionIcon = (position: number) => {
     switch (position) {
@@ -122,6 +124,7 @@ const ReferralCertificate: React.FC<ReferralCertificateProps> = ({ winner, isOpe
 
 🏆 Position: ${getPositionText(winner.position)}
 📊 Total References: ${winner.score}
+✅ Qualified Referrals (5+ Score): ${winner.qualifiedReferrals || 0}
 📍 Attended Panchayaths: ${contestantPanchayath}
 📅 Date: ${formatDate(winner.created_at)}
 
@@ -143,7 +146,7 @@ Well done! 🎊`;
           {/* Contestant Details Form */}
           <Card className="bg-accent/5">
             <CardContent className="p-4">
-              <h3 className="font-semibold mb-4">Please fill in your details:</h3>
+              <h3 className="font-semibold mb-4">Please enter your name:</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="contestantName">Your Name</Label>
@@ -161,9 +164,15 @@ Well done! 🎊`;
                     id="contestantPanchayath"
                     value={contestantPanchayath}
                     onChange={(e) => setContestantPanchayath(e.target.value)}
-                    placeholder="Number of panchayaths attended"
+                    placeholder="Auto-filled from submissions"
                     className="mt-1"
+                    disabled={winner.attendedPanchayaths !== undefined}
                   />
+                  {winner.attendedPanchayaths !== undefined && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Automatically calculated from submission data
+                    </p>
+                  )}
                 </div>
               </div>
             </CardContent>
@@ -214,17 +223,21 @@ Well done! 🎊`;
                 </div>
 
                 {/* Achievement Details */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                   <div className="bg-background/50 p-4 rounded-lg border">
                     <div className="text-2xl font-bold text-primary">{winner.score}</div>
                     <div className="text-sm text-muted-foreground">Total References</div>
+                  </div>
+                  <div className="bg-background/50 p-4 rounded-lg border">
+                    <div className="text-2xl font-bold text-primary">{winner.qualifiedReferrals || 0}</div>
+                    <div className="text-sm text-muted-foreground">Qualified (5+ Score)</div>
                   </div>
                   <div className="bg-background/50 p-4 rounded-lg border">
                     <div className="text-2xl font-bold text-primary">{contestantPanchayath || '[Count]'}</div>
                     <div className="text-sm text-muted-foreground">Attended Panchayaths</div>
                   </div>
                   <div className="bg-background/50 p-4 rounded-lg border">
-                    <div className="text-lg font-bold text-primary">Reference ID: {winner.id}</div>
+                    <div className="text-lg font-bold text-primary">ID: {winner.id}</div>
                     <div className="text-sm text-muted-foreground">Reference Code</div>
                   </div>
                 </div>

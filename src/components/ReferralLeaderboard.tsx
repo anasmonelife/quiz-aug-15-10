@@ -11,6 +11,8 @@ interface ReferralData {
   reference_id: string;
   count: number;
   rank: number;
+  attendedPanchayaths: number;
+  qualifiedReferrals: number;
 }
 
 const ReferralLeaderboard = () => {
@@ -25,24 +27,53 @@ const ReferralLeaderboard = () => {
 
   const fetchReferralData = async () => {
     try {
-      const { data, error } = await supabase
+      // Get all submissions
+      const { data: allSubmissions, error } = await supabase
         .from('submissions')
-        .select('reference_id')
-        .not('reference_id', 'is', null);
+        .select('*');
 
       if (error) throw error;
 
-      // Count referrals by reference_id
-      const referralCounts: Record<string, number> = {};
-      data?.forEach((submission) => {
+      // Count referrals by reference_id and calculate additional metrics
+      const referralStats: Record<string, {
+        count: number;
+        attendedPanchayaths: number;
+        qualifiedReferrals: number;
+      }> = {};
+
+      allSubmissions?.forEach((submission) => {
         if (submission.reference_id) {
-          referralCounts[submission.reference_id] = (referralCounts[submission.reference_id] || 0) + 1;
+          if (!referralStats[submission.reference_id]) {
+            referralStats[submission.reference_id] = {
+              count: 0,
+              attendedPanchayaths: 0,
+              qualifiedReferrals: 0
+            };
+          }
+          referralStats[submission.reference_id].count++;
+          
+          // Count if this referral scored 5 or more
+          if (submission.score >= 5) {
+            referralStats[submission.reference_id].qualifiedReferrals++;
+          }
         }
       });
 
+      // Calculate attended panchayaths for each reference_id
+      for (const referenceId of Object.keys(referralStats)) {
+        const referenceIdSubmissions = allSubmissions?.filter(s => s.id === referenceId || s.mobile === referenceId) || [];
+        const uniquePanchayaths = new Set(referenceIdSubmissions.map(s => s.panchayath));
+        referralStats[referenceId].attendedPanchayaths = uniquePanchayaths.size;
+      }
+
       // Convert to array and sort by count
-      const sortedReferrals = Object.entries(referralCounts)
-        .map(([reference_id, count]) => ({ reference_id, count }))
+      const sortedReferrals = Object.entries(referralStats)
+        .map(([reference_id, stats]) => ({ 
+          reference_id, 
+          count: stats.count,
+          attendedPanchayaths: stats.attendedPanchayaths,
+          qualifiedReferrals: stats.qualifiedReferrals
+        }))
         .sort((a, b) => b.count - a.count)
         .map((item, index) => ({ ...item, rank: index + 1 }));
 
@@ -95,7 +126,9 @@ const ReferralLeaderboard = () => {
       score: referralItem.count,
       created_at: new Date().toISOString(),
       position: referralItem.rank,
-      submissionTimeSeconds: 0 // Not applicable for referrals
+      submissionTimeSeconds: 0, // Not applicable for referrals
+      attendedPanchayaths: referralItem.attendedPanchayaths,
+      qualifiedReferrals: referralItem.qualifiedReferrals
     };
     
     setSelectedWinner(winner);
@@ -139,7 +172,7 @@ const ReferralLeaderboard = () => {
                   <div>
                     <p className="font-semibold">Reference ID: {item.reference_id}</p>
                     <p className="text-sm text-muted-foreground">
-                      {item.count} referral{item.count !== 1 ? 's' : ''}
+                      {item.count} referral{item.count !== 1 ? 's' : ''} • {item.qualifiedReferrals} qualified (5+ score)
                     </p>
                   </div>
                 </div>
