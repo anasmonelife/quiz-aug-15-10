@@ -29,6 +29,7 @@ const FastestSubmissions = () => {
       const { data, error } = await supabase
         .from('submissions')
         .select('id, name, mobile, panchayath, score, created_at')
+        .gte('score', 5)
         .order('created_at', { ascending: true })
         .limit(10);
 
